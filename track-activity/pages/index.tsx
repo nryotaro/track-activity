@@ -1,6 +1,10 @@
-import Head from 'next/head'
+import { GetServerSideProps, } from 'next';
+import Head from 'next/head';
 
-export default function Home() {
+
+type Props = {}
+
+export default function Home(props: Props) {
   return (
     <div className="container">
       <Head>
@@ -206,4 +210,10 @@ export default function Home() {
       `}</style>
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  return {
+    props: {},
+  }
 }
