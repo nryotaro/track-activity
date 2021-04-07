@@ -1,7 +1,14 @@
 FROM  fluent/fluentd:v1.12.2-debian-1.0
 USER root
+COPY fluent.conf /fluentd/etc/fluent.conf
+COPY entrypoint.sh /bin/entrypoint.sh
 RUN  gem install fluent-plugin-gcs -v "0.4.0" --no-document && \
      gem sources --clear-all && \
-     rm /usr/local/lib/ruby/gems/2.6.0/cache/*.gem
-COPY td-agent.conf /etc/td-agent/td-agent.conf
+     rm /usr/local/lib/ruby/gems/2.6.0/cache/*.gem && \
+     chmod o+x /bin/entrypoint.sh && \
+     mkdir /etc/gcloud && \
+     mkdir -p /var/log/fluent/gcs && \
+     chown fluent:fluent /var/log/fluent/gcs && \
+     chown fluent:fluent /etc/gcloud
+ENV GCLOUD_KEYFILE=/etc/gcloud/keyfile.json
 USER fluent
