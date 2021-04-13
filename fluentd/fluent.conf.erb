@@ -3,7 +3,7 @@
   port 24224
 </source>
 
-<match analysis.*>
+<match access.*>
   @type bigquery_load
   auth_method json_key
   json_key {"private_key": "<%= ENV['GCLOUD_PRIVATE_KEY'] %>", "client_email": "<%= ENV['GOOGLE_CLIENT_EMAIL'] %>"}
