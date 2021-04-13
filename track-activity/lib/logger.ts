@@ -1,6 +1,7 @@
 import getConfig from 'next/config';
 import { v4 as uuidv4 } from 'uuid';
 import fluentLogger, { FluentSender } from 'fluent-logger';
+import { GetServerSidePropsContext } from 'next';
 
 const { serverRuntimeConfig, } = getConfig();
 
@@ -24,15 +25,10 @@ class FluentdLogger implements AccessLogger {
     logRequest(request: object): void {
         const request_id = uuidv4();
         const event = JSON.stringify(request);
-        console.log({
-            request_id, request: event, timestamp: new Date().toISOString()
-        });
-        /*
         this.fluentSender.emit(
             'request', {
             request_id, request: event, timestamp: new Date().toISOString()
         });
-        */
     }
 }
 function createAccessLogger(): AccessLogger {
@@ -47,4 +43,23 @@ function createAccessLogger(): AccessLogger {
     return new NopLogger();
 }
 
-export const accessLogger: AccessLogger = createAccessLogger();
+const accessLogger: AccessLogger = createAccessLogger();
+
+export function logPageAccess(context: GetServerSidePropsContext) {
+    if (maybeRobotUserAgent(context.req.headers['user-agent']))
+        return;
+    const req = context.req;
+    const event = {
+        headers: req.headers,
+        url: req.url, method: req.method,
+        query: context.query,
+        resolvedUrl: context.resolvedUrl,
+    }
+    accessLogger.logRequest(event);
+}
+
+function maybeRobotUserAgent(userAgent: undefined | string): boolean {
+    if (userAgent == undefined)
+        return false;
+    return userAgent.toLowerCase().includes('datadog');
+}

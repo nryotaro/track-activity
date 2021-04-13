@@ -1,6 +1,6 @@
 import { GetServerSideProps, } from 'next';
 import Head from 'next/head';
-import { accessLogger } from '../lib/logger';
+import { logPageAccess } from '../lib/logger';
 
 
 type Props = {}
@@ -215,8 +215,8 @@ export default function Home(props: Props) {
 
 export const getServerSideProps: GetServerSideProps = async context => {
   console.log(context);
-  ;
-  accessLogger.logRequest({ "amazon": 1 });
+
+  logPageAccess(context);
   return {
     props: {},
   };
