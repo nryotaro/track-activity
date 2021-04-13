@@ -1,6 +1,5 @@
 import { GetServerSideProps, } from 'next';
 import nookies from 'nookies';
-import { analyticsLogger } from '../lib/analytics/logger';
 
 export default function TrackImage(props: {}) {
     return <></>;

@@ -1,6 +1,6 @@
 import { GetServerSideProps, } from 'next';
 import Head from 'next/head';
-import { analyticsLogger } from '../lib/analytics/logger';
+import { accessLogger } from '../lib/logger';
 
 
 type Props = {}
@@ -214,8 +214,9 @@ export default function Home(props: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  console.log('doge');
-  analyticsLogger.emit('dogebow', { doge: 'wow, very log' });
+  console.log(context);
+  ;
+  accessLogger.logRequest({ "amazon": 1 });
   return {
     props: {},
   };
