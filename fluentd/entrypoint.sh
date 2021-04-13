@@ -1,20 +1,7 @@
 #!/bin/bash
 set -eu
-#erb <<EOF > ${GCLOUD_PRIVATE_KEYFILE}
-#{
-#  "type": "service_account",
-#  "project_id": "<%= ENV['GCLOUD_PROJECT'] %>",
-#  "private_key_id": "<%= ENV['GCLOUD_PRIVATE_KEY_ID'] %>",
-#  "private_key": "<%= ENV['GCLOUD_PRIVATE_KEY'] %>",
-#  "client_email": "<%= ENV['GCLOUD_SERVICE_ACCOUNT_NAME'] %>@<%= ENV['GCLOUD_PROJECT'] %>.iam.gserviceaccount.com",
-#  "client_id": "<%= ENV['GCLOUD_CLIENT_ID'] %>",
-#  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#  "token_uri": "https://oauth2.googleapis.com/token",
-#  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-#  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/<%= ENV['GCLOUD_SERVICE_ACCOUNT_NAME'] %>%40<%= ENV['GCLOUD_PROJECT'] %>.iam.gserviceaccount.com"
-#}
-#EOF
 
+erb < /fluentd/etc/fluent.conf.erb  > /fluentd/etc/fluent.conf
 
 #source vars if file exists
 DEFAULT=/etc/default/fluentd
